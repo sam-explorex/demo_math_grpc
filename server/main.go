@@ -20,8 +20,8 @@ const (
 )
 
 func main() {
-	database.ConnectDatabase()
-	database.MigrateDatabase()
+	dbInstance := database.ConnectDatabase()
+	database.MigrateDatabase(dbInstance)
 
 	// go routine to run REST api server simultaneously
 	go func() {
@@ -29,7 +29,7 @@ func main() {
 		mux := runtime.NewServeMux()
 
 		// register
-		pb.RegisterMathServiceHandlerServer(context.Background(), mux, &service.MathServer{})
+		pb.RegisterMathServiceHandlerServer(context.Background(), mux, &service.MathServer{Db: dbInstance})
 
 		// http server
 		err := http.ListenAndServe("localhost"+httpPort, mux)
@@ -49,7 +49,7 @@ func main() {
 	// creating the grpc server
 	grpcServer := grpc.NewServer()
 
-	pb.RegisterMathServiceServer(grpcServer, &service.MathServer{})
+	pb.RegisterMathServiceServer(grpcServer, &service.MathServer{Db: dbInstance})
 	log.Printf("server started at %v", lis.Addr())
 	err = grpcServer.Serve(lis)
 	if err != nil {

@@ -18,7 +18,7 @@ func (s *MathServer) Add(ctx context.Context, req *pb.Request) (*pb.Response, er
 		Result:    float64(result),
 	}
 
-	_, err := repository.CreateLogs(log)
+	_, err := repository.CreateLogs(log, s.Db)
 	if err != nil {
 		return &pb.Response{}, err
 	}
@@ -42,7 +42,7 @@ func (s *MathServer) Subtract(ctx context.Context, req *pb.Request) (*pb.Respons
 		Result:    float64(result),
 	}
 
-	_, err := repository.CreateLogs(log)
+	_, err := repository.CreateLogs(log, s.Db)
 	if err != nil {
 		return &pb.Response{}, err
 	}
@@ -66,7 +66,7 @@ func (s *MathServer) Multiply(ctx context.Context, req *pb.Request) (*pb.Respons
 		Result:    float64(result),
 	}
 
-	_, err := repository.CreateLogs(log)
+	_, err := repository.CreateLogs(log, s.Db)
 	if err != nil {
 		return &pb.Response{}, err
 	}
@@ -97,7 +97,7 @@ func (s *MathServer) Divide(ctx context.Context, req *pb.Request) (*pb.Response,
 		Result:    float64(result),
 	}
 
-	_, err := repository.CreateLogs(log)
+	_, err := repository.CreateLogs(log, s.Db)
 	if err != nil {
 		return &pb.Response{}, err
 	}
